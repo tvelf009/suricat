@@ -4,7 +4,7 @@ import { createBreakpoints } from '@chakra-ui/theme-tools'
 
 const fonts = {
 //   mono: `'Menlo', monospace`,
-  // body: `'Roboto', sans-serif`
+  body: `'Roboto', sans-serif;`
 }
 
 const breakpoints = createBreakpoints({

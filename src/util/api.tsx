@@ -12,6 +12,12 @@ const API = {
             data:data.result, status
         }
     },
+    getVacancy: async () => {
+      const {data, status} = await axios.get(`http://v584337.hosted-by-vdsina.ru/api/get/vacancies`);
+        return {
+            data:data.result, status
+        }
+    },
     searchVacancy: async (position_id:number) => {
       const {data, status} = await axios.get(`http://v584337.hosted-by-vdsina.ru/api/get/vacancies/search/${position_id}`);
       return {

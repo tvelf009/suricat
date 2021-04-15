@@ -26,5 +26,5 @@ export interface ResponceSearch{
     lon: number
     company_name: string
     count: number
-    position_name:number
+    position_name:string
 }

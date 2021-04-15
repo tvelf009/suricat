@@ -3,22 +3,23 @@ import { Component } from "react";
 import MainBlock1 from "./mainBlock1";
 import CompanyList from "./companyList";
 import CompanyAdd from "./companyAdd";
+import VacancyList from "./vacancyList";
 
 
-export class Company extends Component<{}, {}>{
+export class Vacancy extends Component<{}, {}>{
 
     render(){
         return (
-            <MainBlock1 title="Компании">
+            <MainBlock1 title="Вакансии">
                 <Tabs>
                 <TabList>
-                    <Tab>Список компании</Tab>
-                    <Tab>Добавить компанию</Tab>
+                    <Tab>Список вакансии</Tab>
+                    <Tab>Добавить вакансию</Tab>
                 </TabList>
     
                 <TabPanels>
                     <TabPanel>
-                        <CompanyList/>
+                        <VacancyList/>
                     </TabPanel>
                     <TabPanel>
                         <CompanyAdd/>
@@ -31,4 +32,4 @@ export class Company extends Component<{}, {}>{
 
 }
 
-export default Company;
+export default Vacancy;

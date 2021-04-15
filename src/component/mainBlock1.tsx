@@ -15,7 +15,7 @@ export const MainBlock1 = ({children, title}:{children:any, title:string}) => {
     return (
             <Box boxShadow="xl" m={5} style={boxStyle2} p={2}>
               <Box >
-                <Text fontSize="xl">{title}</Text>
+                <Text fontSize="xl" mt={2}>{title}</Text>
               </Box>
               <Divider mt={3} mb={3} />
                 {children}

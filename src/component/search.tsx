@@ -4,7 +4,7 @@ import { Box,
     GridItem,
     Text,
     Input,
-    FormLabel, FormControl, FormHelperText, Select, Button, Center, Divider, HStack, IconButton } from "@chakra-ui/react";
+    FormLabel, FormControl, FormHelperText, Select, Button, Center, Divider, HStack, IconButton, VStack, Stack } from "@chakra-ui/react";
 import { MapComp } from './mapComp';
 import { LatLngExpression, LatLngLiteral } from 'leaflet';
 import CSS from 'csstype';
@@ -12,7 +12,7 @@ import { ResponceSearch, SearchResult } from '../util/interfaces';
 import API from '../util/api';
 import {  Marker, Popup, useMap, Polyline  } from 'react-leaflet';
 import { MarkunreadTwoTone } from '@material-ui/icons';
-import { SearchIcon } from '@chakra-ui/icons';
+import { ViewIcon } from '@chakra-ui/icons';
 
 
 const boxStyle2:CSS.Properties = {
@@ -21,7 +21,22 @@ const boxStyle2:CSS.Properties = {
 
 const gridStyle1:CSS.Properties = {
     border: "1px solid #e0e0e0",
-    borderRadius: "5px"
+    borderRadius: "5px",
+    backgroundColor: "#ee7b5e",
+    cursor: "pointer",
+    color: "#fff"
+}
+
+const textStyle1:CSS.Properties = {
+  color: "#000",
+  fontSize: "18px",
+  fontWeight: "bolder"
+}
+
+const gridStyle2:CSS.Properties = {
+  border: "1px solid #e0e0e0",
+  borderRadius: "5px",
+  backgroundColor: '#f3f2f2'
 }
 
 const position = [
@@ -31,7 +46,7 @@ const position = [
   },
   {
     id: 5,
-    name: "ВМенеджер"
+    name: "Менеджер"
   }
 ]
 
@@ -80,6 +95,8 @@ export const Search = () => {
   const [polyline, setPolyline] = React.useState<LatLngExpression[]>([[42.86, 74.68]]);
   const [markerOne, setMarkerOne] = React.useState<LatLngExpression>([42.86, 74.68]);
   const [markerTwo, setMarkerTwo] = React.useState<LatLngExpression>([42.86, 74.68]);
+  const [showVacancyBlock, setShowVacancyBlock] = React.useState<Boolean>();
+
   
 
 
@@ -103,7 +120,9 @@ export const Search = () => {
 
   const getVacancy = async() => {
     const {data}:{data:ResponceSearch[]} = await API.searchVacancy(5);
-    setVacancy(data);    
+    setVacancy(data);
+    setShowVacancyBlock(true);   
+
   }
 
   const MarkerSet = (lat1:number,lng1:number,lat2:number,lng2:number) => {
@@ -116,8 +135,6 @@ export const Search = () => {
     ])
 
     setIsLoadRes(true);
-    console.log(lat1, lng1, lat2, lng2);
-    
   }
 
   const CreateLineAndMarker = () => {
@@ -190,81 +207,102 @@ export const Search = () => {
                 </Button>
                 </GridItem>
               </SimpleGrid>
-
-              <SimpleGrid columns={[2, null, 12]} gap={5}>
+              <Divider mt={5} mb={5} />
+              <SimpleGrid columns={[2, null, 12]} gap={5} >
                 <GridItem colSpan={6}>
-                  <SimpleGrid columns={[2, null, 12]} gap={5} >
-                        <GridItem colSpan={2}>
-                          <Text>
-                            Компания
-                          </Text>
-                        </GridItem>
-                        <GridItem colSpan={2} >
-                          <Text>
-                            Адрес
-                          </Text>
-                        </GridItem>
-                        <GridItem colSpan={2} >
-                          <Text>
-                            Позиция
-                          </Text>
-                        </GridItem>
-                        <GridItem colSpan={2}>
-                          <Text>
-                            Кол-во
-                          </Text>
-                        </GridItem>
-                        <GridItem colSpan={2} >
-                          <Text>
-                            Расстояние
-                          </Text>
-                        </GridItem>
-                        <GridItem colSpan={2}>
-                          Показать
-                        </GridItem>
-                    </SimpleGrid>
                   {
-                    vacany?.map((item, index) => (
-                      <SimpleGrid columns={[2, null, 12]} gap={5} key={index} p={3}>
-                        <GridItem colSpan={2} >
-                          <Text>
-                            {item.company_name}
-                          </Text>
-                        </GridItem>
-                        <GridItem colSpan={2} >
-                          <Text>
-                            {item.address}
-                          </Text>
-                        </GridItem>
-                        <GridItem colSpan={2} >
-                          <Text>
-                            {item.position_name}
-                          </Text>
-                        </GridItem>
-                        <GridItem colSpan={2} >
-                          <Text>
-                            {item.count}
-                          </Text>
-                        </GridItem>
-                        <GridItem colSpan={2} >
-                          <HStack>
-                          <Text>
-                            {distanceInKmBetweenEarthCoordinates(coordinates.lat, coordinates.lng, item.lat, item.lon).toFixed(2)} км
-                          </Text>
-                          </HStack>
-                        </GridItem>
-                        <GridItem colSpan={2}>
-                          <IconButton
-                              mt={2}
-                              colorScheme="blue"
-                              aria-label="Search database"
-                              icon={<SearchIcon />}
-                              onClick={() => MarkerSet(coordinates.lat, coordinates.lng, item.lat, item.lon)}
-                            />
-                        </GridItem>
-                    </SimpleGrid>
-                    ))
+
+                      showVacancyBlock? (
+                        <>
+                        <Text fontSize="xl">
+                          Расчет расстояния от сотрудника до филиалов
+                        </Text>
+                          <SimpleGrid columns={[2, null, 12]} gap={5} pt={5} pl={5} pr={5}>
+                            <GridItem colSpan={3}>
+                              <Text>
+                                Компания
+                              </Text>
+                            </GridItem>
+                            <GridItem colSpan={2} >
+                              <Text>
+                                Адрес
+                              </Text>
+                            </GridItem>
+                            <GridItem colSpan={2} >
+                              <Text>
+                                Позиция
+                              </Text>
+                            </GridItem>
+                            <GridItem colSpan={2}>
+                              <Text>
+                                Кол-во
+                              </Text>
+                            </GridItem>
+                            <GridItem colSpan={2} >
+                              <Text>
+                                Расстояние
+                              </Text>
+                            </GridItem>
+                            <GridItem colSpan={1}>
+
+                            </GridItem>
+                          </SimpleGrid>
+                          {
+                            vacany?.map((item, index) => (
+                              
+                              <SimpleGrid columns={[2, null, 12]} style={gridStyle2} gap={5} key={index}  mt={3} mb={3} p={5} >
+                                <GridItem colSpan={3} mt={1}>
+                                    <Text style={textStyle1}>
+                                      {item.company_name}
+                                    </Text>
+                                </GridItem>
+                                <GridItem colSpan={2} mt={1}>
+                                  <Text style={textStyle1}>
+                                    {item.address}
+                                  </Text>
+                                </GridItem>
+                                <GridItem colSpan={2} mt={1}>
+                                  <Text style={textStyle1}>
+                                    {item.position_name}
+                                  </Text>
+                                </GridItem>
+                                <GridItem colSpan={2} mt={1}>
+                                  <Text style={textStyle1}>
+                                    {item.count}
+                                  </Text>
+                                </GridItem>
+                                <GridItem colSpan={2} mt={1} >
+                                  <HStack>
+                                    <Center>
+                                  <Text style={textStyle1}>
+                                    {distanceInKmBetweenEarthCoordinates(coordinates.lat, coordinates.lng, item.lat, item.lon).toFixed(2)} км
+                                  </Text>
+                                  </Center>
+                                  </HStack>
+                                </GridItem>
+                                <GridItem colSpan={1}>
+                                  <IconButton
+                                      colorScheme="blue"
+                                      aria-label="Search database"
+                                      icon={<ViewIcon />}
+                                      onClick={() => MarkerSet(coordinates.lat, coordinates.lng, item.lat, item.lon)}
+                                      variant="outline"
+                                    />
+                                </GridItem>
+                            </SimpleGrid>
+                            ))
+                            
+                          }
+                          <Divider mt={3} mb={3}/>
+                        </>
+                      ):(
+                        null
+                      )
                   }
+
+                  <Text fontSize="xl" mb={3}>
+                    Совпадения по улицам. Выберите правильный.
+                  </Text>
                   {
                       result.map((item, index) => (
                         <SimpleGrid key={index} style={gridStyle1} p={5} mb={3} onClick={() => getToPoint(item.lat, item.lon)}>
