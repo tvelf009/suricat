@@ -3,7 +3,7 @@ import { Component } from "react";
 import MainBlock1 from "./mainBlock1";
 import BranchesList from "./branchesList";
 import BranchesAdd from "./branchesAdd";
-
+  
 
 export class Branches extends Component<{}, {}>{
 
