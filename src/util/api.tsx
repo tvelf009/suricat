@@ -1,4 +1,5 @@
 import axios, { AxiosRequestConfig } from 'axios'
+import { SERVER_BASE_URL } from './constant';
 import { ResponceBranches, ResponceCompany, ResponceVacancy } from './interfaces';
 
 
@@ -6,20 +7,20 @@ const API = {
     getCoordinateByAddress: async (address:string) => 
         axios.get(`https://nominatim.openstreetmap.org/search?format=json&limit=3&q=${address}&accept-language=ru`),
     getCompany: async () => {
-        const {data, status} = await axios.get(`http://v584337.hosted-by-vdsina.ru/api/get/companies`);
+        const {data, status} = await axios.get(`${SERVER_BASE_URL}/api/get/companies`);
         return {
             data:data.result, status
         }
     },
     getVacancy: async () => {
-      const {data, status} = await axios.get(`http://v584337.hosted-by-vdsina.ru/api/get/vacancies`);
+      const {data, status} = await axios.get(`${SERVER_BASE_URL}/api/get/vacancies`);
         return {
             data:data.result, status
         }
     },
     addVacancy: async (req:ResponceVacancy) => {
       const { data, status } = await axios.post(
-        'http://v584337.hosted-by-vdsina.ru/api/add/vacancy',
+        `${SERVER_BASE_URL}/api/add/vacancy`,
         JSON.stringify(req),
         {
           headers: {
@@ -33,14 +34,14 @@ const API = {
       };
     },
     searchVacancy: async (position_id:string) => {
-      const {data, status} = await axios.get(`http://v584337.hosted-by-vdsina.ru/api/get/vacancies/search/${position_id}`);
+      const {data, status} = await axios.get(`${SERVER_BASE_URL}/api/get/vacancies/search/${position_id}`);
       return {
           data:data.result, status
       }
     },
     addCompany: async (req:ResponceCompany) => {
         const { data, status } = await axios.post(
-            'http://v584337.hosted-by-vdsina.ru/api/add/company',
+            `${SERVER_BASE_URL}/api/add/company`,
             JSON.stringify(req),
             {
               headers: {
@@ -54,14 +55,14 @@ const API = {
           };
     },
     getBranches: async () => {
-      const {data, status} = await axios.get(`http://v584337.hosted-by-vdsina.ru/api/get/branches`);
+      const {data, status} = await axios.get(`${SERVER_BASE_URL}/api/get/branches`);
       return {
           data:data.result, status
       }
     },
     addBranches: async (req:ResponceBranches) => {
       const { data, status } = await axios.post(
-          'http://v584337.hosted-by-vdsina.ru/api/add/branch',
+          `${SERVER_BASE_URL}/api/add/branch`,
           JSON.stringify(req),
           {
             headers: {

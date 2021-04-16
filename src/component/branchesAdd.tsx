@@ -9,6 +9,7 @@ import { MapComp } from "./mapComp";
 import { ResponceBranches, ResponceCompany, SearchResult } from "../util/interfaces";
 import API from "../util/api";
 import CSS from 'csstype';
+import { BASE_COORDINATE_LITERAL } from "../util/constant";
 
 const gridStyle1:CSS.Properties = {
     border: "1px solid #e0e0e0",
@@ -20,16 +21,13 @@ const gridStyle1:CSS.Properties = {
 const  BranchesAdd = () => {
 
     const [isAdded] = useState(false)
-    const [position, setPosition] = useState<LatLngLiteral>({
-        lat: 55.754252,
-        lng: 37.622146
-    })
+    const [position, setPosition] = useState<LatLngLiteral>(BASE_COORDINATE_LITERAL)
     const [allCompany, setAllCompany]  = useState<ResponceCompany[]>();
     const [address, setAddress] = useState<string>("")
     const [result, setResult] = useState<SearchResult[]>([
         {
-            lat: 42.869953100000004,
-            lon: 74.68968257146773,
+            lat: BASE_COORDINATE_LITERAL.lat,
+            lon: BASE_COORDINATE_LITERAL.lng,
             display_name: "Нет данных для отображения",
         }
     ])

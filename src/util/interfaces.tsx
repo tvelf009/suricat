@@ -27,6 +27,7 @@ export interface ResponceSearch{
     company_name: string
     count: number
     position_name:string
+    company_logo: string
 }
 
 export interface ResponceVacancy{

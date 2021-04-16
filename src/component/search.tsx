@@ -6,12 +6,14 @@ import { Box,
     Input,
     FormLabel, FormControl, FormHelperText, Select, Button, Center, Divider, HStack, IconButton} from "@chakra-ui/react";
 import { MapComp } from './mapComp';
-import { LatLngExpression, LatLngLiteral } from 'leaflet';
+import { BaseIconOptions, DivIcon, Icon, IconOptions, LatLngExpression, LatLngLiteral } from 'leaflet';
 import CSS from 'csstype';
 import { ResponceSearch, SearchResult } from '../util/interfaces';
 import API from '../util/api';
 import {  Marker, Popup, useMap, Polyline  } from 'react-leaflet';
 import { ViewIcon } from '@chakra-ui/icons';
+import { BASE_COORDINATE_EXPRESSION, BASE_COORDINATE_LITERAL } from '../util/constant';
+
 
 
 const boxStyle2:CSS.Properties = {
@@ -73,7 +75,6 @@ const position = [
   }
 ]
 
-
   
 function degreesToRadians(degrees:any) {
     return degrees * Math.PI / 180;
@@ -102,22 +103,20 @@ export const Search = () => {
     
   const [result, setResult] = React.useState<SearchResult[]>([
     {
-        lat: 42.869953100000004,
-        lon: 74.68968257146773,
+        lat: BASE_COORDINATE_LITERAL.lat,
+        lon: BASE_COORDINATE_LITERAL.lng,
         display_name: "Нет данных для отображения",
     }
   ])
   const [address, setAddress] = React.useState<string>("");
-  const [coordinates, setCoordinates] = React.useState<LatLngLiteral>({
-    lat: 42.8734304,
-    lng: 74.5807762
-  });
+  const [coordinates, setCoordinates] = React.useState<LatLngLiteral>(BASE_COORDINATE_LITERAL);
   const [vacany, setVacancy] = React.useState<ResponceSearch[]>();
   const limeOptions = { color: 'red' }
   const [isLoadRes, setIsLoadRes] = React.useState<Boolean>(false);
-  const [polyline, setPolyline] = React.useState<LatLngExpression[]>([[42.86, 74.68]]);
-  const [markerOne, setMarkerOne] = React.useState<LatLngExpression>([42.86, 74.68]);
-  const [markerTwo, setMarkerTwo] = React.useState<LatLngExpression>([42.86, 74.68]);
+  const [polyline, setPolyline] = React.useState<LatLngExpression[]>([BASE_COORDINATE_EXPRESSION]);
+  const [markerOne, setMarkerOne] = React.useState<LatLngExpression>(BASE_COORDINATE_EXPRESSION);
+  const [markerTwo, setMarkerTwo] = React.useState<LatLngExpression>(BASE_COORDINATE_EXPRESSION);
+  const [logoUrl, setLogoUrl] = React.useState<string>("https://i.ibb.co/ZxWDKDF/logo-5ka.png");
   const [showVacancyBlock, setShowVacancyBlock] = React.useState<Boolean>();
   const [selectedPosition, setSelectedPosition] = React.useState<string>("1");
 
@@ -150,7 +149,7 @@ export const Search = () => {
 
   }
 
-  const MarkerSet = (lat1:number,lng1:number,lat2:number,lng2:number) => {
+  const MarkerSet = (lat1:number,lng1:number,lat2:number,lng2:number, logo:string) => {
     
     setMarkerOne([lat1, lng1]);
     setMarkerTwo([lat2, lng2]);
@@ -158,21 +157,33 @@ export const Search = () => {
       [lat1, lng1],
       [lat2, lng2]
     ])
-
+    setLogoUrl(logo)
     setIsLoadRes(true);
   }
 
   const CreateLineAndMarker = () => {
+    
+    const iconOptions:IconOptions = {
+      iconUrl: logoUrl,
+      iconSize: [50, 50],
+      iconAnchor: [25, 25],
+      popupAnchor: [0, 0],
+      className: "markerStyle1",
+    } 
+
+    const ic = new Icon(iconOptions);
+    
+
     return (
       <>
-        <Marker position={markerOne}>
+        <Marker position={markerOne} >
           <Popup>
-            <Button onClick={getVacancy}>
+            <Button onClick={getVacancy}  >
               Найти рядом вакансии
             </Button>
           </Popup>
         </Marker>
-        <Marker position={markerTwo}>
+        <Marker position={markerTwo} icon={ic}>
           <Popup>
             <Button onClick={getVacancy}>
               Найти рядом вакансии
@@ -187,9 +198,10 @@ export const Search = () => {
   const ChangeCenter = ({coords}:{coords:LatLngExpression}) => {
     const smap = useMap();
     smap.setView(coords, 17);
-  
+
+
     return (
-      <Marker position={coords}>
+      <Marker position={coords} >
         <Popup>
           <Button onClick={getVacancy}>
             Найти рядом вакансии
@@ -312,7 +324,7 @@ export const Search = () => {
                                       colorScheme="blue"
                                       aria-label="Search database"
                                       icon={<ViewIcon />}
-                                      onClick={() => MarkerSet(coordinates.lat, coordinates.lng, item.lat, item.lon)}
+                                      onClick={() => MarkerSet(coordinates.lat, coordinates.lng, item.lat, item.lon, item.company_logo)}
                                       variant="outline"
                                     />
                                 </GridItem>

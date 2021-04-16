@@ -21,7 +21,8 @@ export class VacancyList extends Component<{}, Result>{
             lon: 0,
             company_name: "",
             count: 0,
-            position_name: ""            
+            position_name: "",
+            company_logo: "",
         }]
     }
 
