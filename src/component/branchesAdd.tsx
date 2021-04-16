@@ -3,8 +3,8 @@ import { Box, FormControl,
     Input, Button, Alert, AlertIcon, InputGroup, InputRightElement, SimpleGrid, GridItem, Text } from "@chakra-ui/react"
 import { useEffect, useState } from "react";
 import { Select } from "@chakra-ui/react"
-import { Marker, Popup, useMap, useMapEvents } from 'react-leaflet';
-import { LatLng, LatLngExpression, LatLngLiteral, LeafletMouseEvent } from 'leaflet';
+import { Marker, Popup, useMapEvents } from 'react-leaflet';
+import { LatLngLiteral, LeafletMouseEvent } from 'leaflet';
 import { MapComp } from "./mapComp";
 import { ResponceBranches, ResponceCompany, SearchResult } from "../util/interfaces";
 import API from "../util/api";

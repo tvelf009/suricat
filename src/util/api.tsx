@@ -1,6 +1,5 @@
 import axios, { AxiosRequestConfig } from 'axios'
-import { LatLngExpression } from 'leaflet';
-import { ResponceBranches, ResponceCompany } from './interfaces';
+import { ResponceBranches, ResponceCompany, ResponceVacancy } from './interfaces';
 
 
 const API = {
@@ -18,7 +17,22 @@ const API = {
             data:data.result, status
         }
     },
-    searchVacancy: async (position_id:number) => {
+    addVacancy: async (req:ResponceVacancy) => {
+      const { data, status } = await axios.post(
+        'http://v584337.hosted-by-vdsina.ru/api/add/vacancy',
+        JSON.stringify(req),
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      return {
+        data:data,
+        status,
+      };
+    },
+    searchVacancy: async (position_id:string) => {
       const {data, status} = await axios.get(`http://v584337.hosted-by-vdsina.ru/api/get/vacancies/search/${position_id}`);
       return {
           data:data.result, status

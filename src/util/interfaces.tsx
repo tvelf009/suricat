@@ -28,3 +28,9 @@ export interface ResponceSearch{
     count: number
     position_name:string
 }
+
+export interface ResponceVacancy{
+    id_position: number
+    id_branch: number
+    count: number
+}

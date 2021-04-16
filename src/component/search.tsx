@@ -4,14 +4,13 @@ import { Box,
     GridItem,
     Text,
     Input,
-    FormLabel, FormControl, FormHelperText, Select, Button, Center, Divider, HStack, IconButton, VStack, Stack } from "@chakra-ui/react";
+    FormLabel, FormControl, FormHelperText, Select, Button, Center, Divider, HStack, IconButton} from "@chakra-ui/react";
 import { MapComp } from './mapComp';
 import { LatLngExpression, LatLngLiteral } from 'leaflet';
 import CSS from 'csstype';
 import { ResponceSearch, SearchResult } from '../util/interfaces';
 import API from '../util/api';
 import {  Marker, Popup, useMap, Polyline  } from 'react-leaflet';
-import { MarkunreadTwoTone } from '@material-ui/icons';
 import { ViewIcon } from '@chakra-ui/icons';
 
 
@@ -41,12 +40,36 @@ const gridStyle2:CSS.Properties = {
 
 const position = [
   {
-    id: 1,
-    name: "Курьер"
+    id: 11,
+    name: "Комплектовщик"
   },
   {
-    id: 5,
-    name: "Менеджер"
+    id: 12,
+    name: "Уборщик"
+  },
+  {
+    id: 13,
+    name: "Грузчик"
+  },
+  {
+    id: 14,
+    name: "Разнорабочие"
+  },
+  {
+    id: 15,
+    name: "Работник склада"
+  },
+  {
+    id: 16,
+    name: "Автокурьер"
+  },
+  {
+    id: 17,
+    name: "Велокурьер"
+  },
+  {
+    id: 13,
+    name: "Пеший курьер"
   }
 ]
 
@@ -96,6 +119,7 @@ export const Search = () => {
   const [markerOne, setMarkerOne] = React.useState<LatLngExpression>([42.86, 74.68]);
   const [markerTwo, setMarkerTwo] = React.useState<LatLngExpression>([42.86, 74.68]);
   const [showVacancyBlock, setShowVacancyBlock] = React.useState<Boolean>();
+  const [selectedPosition, setSelectedPosition] = React.useState<string>("1");
 
   
 
@@ -119,7 +143,8 @@ export const Search = () => {
   }
 
   const getVacancy = async() => {
-    const {data}:{data:ResponceSearch[]} = await API.searchVacancy(5);
+
+    const {data}:{data:ResponceSearch[]} = await API.searchVacancy(selectedPosition);
     setVacancy(data);
     setShowVacancyBlock(true);   
 
@@ -176,11 +201,12 @@ export const Search = () => {
 
 
     return (
-        <Box boxShadow="xl" m={5} style={boxStyle2} p={2}>
+        <Box boxShadow="xl" m={5} style={boxStyle2} p={3}>
               <Box >
                 <Text fontSize="xl">Поиск</Text>
               </Box>
               <Divider mt={3} mb={3} />
+              <Box >
               <SimpleGrid columns={[1, null, 3]} gap={10}>
                 <GridItem>
                   <FormControl id="address">
@@ -192,7 +218,7 @@ export const Search = () => {
                 <GridItem>
                 <FormControl id="country">
                   <FormLabel>Выберите тип должности</FormLabel>
-                  <Select name="position_id">
+                  <Select name="position_id" defaultValue={selectedPosition} onChange={(e) => setSelectedPosition(e.target.value)}>
                     {
                       position.map((item, index) => (
                         <option value={item.id} key={index}>{item.name}</option>
@@ -202,11 +228,12 @@ export const Search = () => {
                 </FormControl>
                 </GridItem>
                 <GridItem>
-                  <Button mt={8} onClick={getCompares} isFullWidth colorScheme="blue">
+                  <Button mt={8} onClick={getCompares} isFullWidth color="blue.800">
                   ПОИСК
                 </Button>
                 </GridItem>
               </SimpleGrid>
+              </Box>
               <Divider mt={5} mb={5} />
               <SimpleGrid columns={[2, null, 12]} gap={5} >
                 <GridItem colSpan={6}>

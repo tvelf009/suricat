@@ -1,7 +1,7 @@
 import { Text, Box, Divider, IconButton, HStack, Center   } from "@chakra-ui/react"
 import { Component } from "react";
 import API from "../util/api";
-import { ResponceBranches, ResponceSearch, SearchResult } from '../util/interfaces'
+import { ResponceSearch } from '../util/interfaces'
 import { EditIcon } from '@chakra-ui/icons'
 
 type Result = {

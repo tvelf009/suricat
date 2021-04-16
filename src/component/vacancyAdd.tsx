@@ -1,103 +1,153 @@
 import { Box, FormControl,
     FormLabel,
-    Input, Button, Alert, AlertIcon } from "@chakra-ui/react"
-import { Component } from "react";
+    Button, Alert, AlertIcon, Select,   NumberInput,
+    NumberInputField,
+    NumberInputStepper,
+    NumberIncrementStepper,
+    NumberDecrementStepper, } from "@chakra-ui/react"
+import { useEffect, useState } from "react";
 import API from '../util/api';
-import ImageUploader from 'react-images-upload';
-import { ResponceCompany } from "../util/interfaces";
+import { ResponceBranches, ResponceVacancy } from "../util/interfaces";
 
-
-
-
-export class VacancyAdd extends Component<{}, {}>{
-
-    state = {
-        pictures: [],
-        isAdded: false
+const position = [
+    {
+      id: 11,
+      name: "Комплектовщик"
+    },
+    {
+      id: 12,
+      name: "Уборщик"
+    },
+    {
+      id: 13,
+      name: "Грузчик"
+    },
+    {
+      id: 14,
+      name: "Разнорабочие"
+    },
+    {
+      id: 15,
+      name: "Работник склада"
+    },
+    {
+      id: 16,
+      name: "Автокурьер"
+    },
+    {
+      id: 17,
+      name: "Велокурьер"
+    },
+    {
+      id: 13,
+      name: "Пеший курьер"
     }
+  ]
+  
 
+
+const VacancyAdd = () => {
+
+    const [isAdded, setIsAdded] = useState<Boolean>(false);
+    // const [companys, setCompanys] = useState<ResponceCompany[]>();
+    const [branches, setBranches] = useState<ResponceBranches[]>([{
+        id: 0,
+        address: "",
+        id_company: 0,
+        lat: 0,
+        lon: 0
+    }]);
     
-    constructor(props:any) {
-        super(props);
-         this.state = { 
-             pictures: [],
-             isAdded: false
-            };
-         this.onDrop = this.onDrop.bind(this);
-    }
 
-    submitForm = async(event:React.FormEvent) => {
+    useEffect(() => {
+        const loadCompanys = async() => {
+            // const {data} = await API.getCompany();
+            // setCompanys(data);
+        }
+
+        const loadBranches = async() => {
+            const {data} = await API.getBranches();
+            setBranches(data);
+        }
+
+        loadCompanys();
+        loadBranches();
+
+    }, [])
+
+    const submitForm = async(event:React.FormEvent) => {
         event.preventDefault();
-        const { company_name  } = event.target as any;
-        let formData = new FormData();
-        formData.append("image", this.state.pictures[0])
+        const { id_position, id_branch, count   } = event.target as any;
 
-        const {data, status} = await API.imgUpload(formData);
+        let req:ResponceVacancy = {
+            id_position: id_position.options[id_position.selectedIndex].value,
+            id_branch: id_branch.options[id_branch.selectedIndex].value,
+            count: count.value
+        }
+
+
+        const {data, status} = await API.addVacancy(req);
+        console.log(data,  status);
+        
+
 
         if(status === 200){
-            let req:ResponceCompany = {
-                company_logo: data.data.url,
-                company_name: company_name.value
-            }
-
-            const {status} = await API.addCompany(req);
-            if(status === 200){
-                this.setState({
-                    isAdded: true
-                })
-            }
+            setIsAdded(true);
         }
                 
     }
 
-    onDrop(picture:any) {
-        this.setState({
-            pictures: this.state.pictures.concat(picture),
-        });
-
-    }
-
-
-    render(){
-
-        return (
-            
-            <Box >
-                 <form encType="multipart/form-data" onSubmit={this.submitForm}>
-                    {
-                        this.state.isAdded ? (
-                            <Alert status="success">
-                                <AlertIcon />
-                                Data uploaded to the server. Fire on!
-                            </Alert>
-                        ):(
-                            null
-                        )
-                    }
-                    <FormControl id="company" isRequired>
-                        <FormLabel>Название компании</FormLabel>
-                        <Input name="company_name" placeholder="Пример: Globus" />
-                    </FormControl>
-                    <FormControl id="company" isRequired mt={5}>
-                        <FormLabel>Логотип</FormLabel>
-                         <ImageUploader
-                            withIcon={true}
-                            buttonText='Загрузите логотип'
-                            onChange={this.onDrop}
-                            imgExtension={['.jpg', '.gif', '.png', '.gif']}
-                            maxFileSize={5242880}
-                            withPreview={true}
-                            singleImage={true}
-                     />
-
-                    </FormControl>
-                    <Button mt={5} colorScheme="blue" type="submit">
-                        Добавить
-                    </Button>
-                 </form>
-            </Box>
-        )
-    }
+    return (
+        
+        <Box >
+                <form encType="multipart/form-data" onSubmit={submitForm}>
+                {
+                    isAdded ? (
+                        <Alert status="success">
+                            <AlertIcon />
+                            Data uploaded to the server. Fire on!
+                        </Alert>
+                    ):(
+                        null
+                    )
+                }
+                <FormControl isRequired>
+                    <FormLabel>Тип вакансии</FormLabel>
+                    <Select name="id_position" >
+                        {
+                            position.map((item, index) => (
+                                <option value={item.id} key={index}>{item.name}</option>
+                            ))
+                        }
+                    </Select>
+                </FormControl>
+                <FormControl isRequired mt={5}>
+                    <FormLabel>Выберите филиал</FormLabel>
+                    <Select name="id_branch" >
+                        {
+                            branches.map((item, index) => (
+                                <option value={item.id} key={index}>{item.address}</option>
+                            ))
+                        }
+                    </Select>
+                </FormControl>
+                <FormControl isRequired mt={5}>
+                    <FormLabel>Количество </FormLabel>
+                    <NumberInput>
+                        <NumberInputField name="count"/>
+                        <NumberInputStepper>
+                            <NumberIncrementStepper />
+                            <NumberDecrementStepper />
+                        </NumberInputStepper>
+                    </NumberInput>
+                </FormControl>
+                <Button mt={5} colorScheme="blue" type="submit">
+                    Добавить
+                </Button>
+                </form>
+        </Box>
+    )
+    
 
 }
 

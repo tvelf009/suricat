@@ -88,7 +88,7 @@ function App() {
               <GridItem colSpan={1}>
                 <Center height="60px">
                 <Logo/> 
-                <Text style={textStyle2} ml={5}>Giro Admin</Text>
+                <Text style={textStyle2} ml={5}>Giro</Text>
               </Center>
               </GridItem>
             </SimpleGrid>
