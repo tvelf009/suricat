@@ -73,12 +73,13 @@ const VacancyAdd = ({company_id}:{company_id:number}) => {
 
     const submitForm = async(event:React.FormEvent) => {
         event.preventDefault();
-        const { id_position, id_branch, count   } = event.target as any;
+        const { id_position, id_branch, count, salary   } = event.target as any;
 
         let req:ResponceVacancy = {
             id_position: id_position.options[id_position.selectedIndex].value,
             id_branch: id_branch.options[id_branch.selectedIndex].value,
-            count: count.value
+            count: count.value,
+            salary: salary.value
         }
 
 
@@ -139,7 +140,7 @@ const VacancyAdd = ({company_id}:{company_id:number}) => {
                 </FormControl>
                 <FormControl isRequired mt={5}>
                     <FormLabel>Оплата </FormLabel>
-                     <Input name="salary"/>
+                     <Input name="salary" />
                 </FormControl>
                 <Button mt={5} colorScheme="blue" type="submit">
                     Добавить

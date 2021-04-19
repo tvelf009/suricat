@@ -36,4 +36,5 @@ export interface ResponceVacancy{
     id_position: number
     id_branch: number
     count: number
+    salary: number
 }
