@@ -23,6 +23,7 @@ export class VacancyList extends Component<{}, Result>{
             count: 0,
             position_name: "",
             company_logo: "",
+            salary: ""
         }]
     }
 
@@ -61,6 +62,11 @@ export class VacancyList extends Component<{}, Result>{
                                     <Box h="60px" w="200px">
                                         <Center>
                                             <Text mt={5}> {item.count} </Text>
+                                        </Center>                                            
+                                    </Box>
+                                    <Box h="60px" w="200px">
+                                        <Center>
+                                            <Text mt={5}> {item.salary} </Text>
                                         </Center>                                            
                                     </Box>
                                     <Box h="60px" w="200px" pt={3}>

@@ -6,7 +6,7 @@ import { Box,
     Input,
     FormLabel, FormControl, FormHelperText, Select, Button, Center, Divider, HStack, IconButton} from "@chakra-ui/react";
 import { MapComp } from './mapComp';
-import { BaseIconOptions, DivIcon, Icon, IconOptions, LatLngExpression, LatLngLiteral } from 'leaflet';
+import { Icon, IconOptions, LatLngExpression, LatLngLiteral } from 'leaflet';
 import CSS from 'csstype';
 import { ResponceSearch, SearchResult } from '../util/interfaces';
 import API from '../util/api';

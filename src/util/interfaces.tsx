@@ -16,6 +16,7 @@ export interface ResponceBranches{
     id_company: number
     lat: number
     lon: number
+    logo?:string
 }
 
 export interface ResponceSearch{
@@ -28,6 +29,7 @@ export interface ResponceSearch{
     count: number
     position_name:string
     company_logo: string
+    salary: string
 }
 
 export interface ResponceVacancy{

@@ -12,6 +12,12 @@ const API = {
             data:data.result, status
         }
     },
+    getCompanyBranches: async (company_id:number) => {
+      const {data, status} = await axios.get(`${SERVER_BASE_URL}/api/get/branches/company/${company_id}`);
+      return {
+          data:data.result, status
+      }
+  },
     getVacancy: async () => {
       const {data, status} = await axios.get(`${SERVER_BASE_URL}/api/get/vacancies`);
         return {

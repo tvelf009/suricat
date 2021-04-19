@@ -1,8 +1,10 @@
-import { Text, Box, Divider, IconButton, HStack, Center   } from "@chakra-ui/react"
+import { Box   } from "@chakra-ui/react"
 import { Component } from "react";
 import API from "../util/api";
 import { ResponceBranches } from '../util/interfaces'
-import { EditIcon } from '@chakra-ui/icons'
+import { MapComp } from "./mapComp";
+import { BASE_COORDINATE_LITERAL } from "../util/constant";
+import MarkerComp from "./markerComp";
 
 type Result = {
     data: ResponceBranches[],
@@ -18,7 +20,8 @@ export class BranchesList extends Component<{}, Result>{
             address: "",
             id_company: 0,
             lat: 0,
-            lon: 0
+            lon: 0,
+            logo: "https://i.ibb.co/vcfqdjg/search.png"
         }]
     }
 
@@ -34,42 +37,17 @@ export class BranchesList extends Component<{}, Result>{
     render(){
         return (
             <Box>
-                {
-                    this.state.status === 200 ? (
-                        this.state.data.map((item, index) => (
-                            <Box key={index} >
-                                <HStack  p={5}>
-                                    <Box h="60px" w="200px">
-                                        <Center>
-                                            
-                                        </Center>
-                                    </Box>
-                                    <Box h="60px" w="200px">
-                                        <Center>
-                                            <Text mt={5}> {item.address} </Text>
-                                        </Center>                                            
-                                    </Box>
-                                    <Box h="60px" w="200px" pt={3}>
-                                        <Center>
-                                        <IconButton
-                                        colorScheme="blue"
-                                        aria-label="Search database"
-                                        icon={<EditIcon/>}
-                                        />
-                                        </Center>
-                                    </Box>
-                                </HStack>
-                                <Divider/>
-                            </Box>
-
-                        ))
-                    ):(
-                        <Text>
-                            Загрузка данных
-                        </Text>
-                    )
-
-                }
+                <MapComp coords={BASE_COORDINATE_LITERAL}>
+                    {
+                        this.state.status === 200 ? (
+                            this.state.data.map((item, index) => (
+                                <MarkerComp coords={[item.lat, item.lon]} logoUrl={item.logo} key={index} />
+                            ))
+                        ):(
+                            null
+                        )
+                    }
+                </MapComp>
             </Box>
         )
     }

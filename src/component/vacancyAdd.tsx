@@ -4,6 +4,7 @@ import { Box, FormControl,
     NumberInputField,
     NumberInputStepper,
     NumberIncrementStepper,
+    Input, 
     NumberDecrementStepper, } from "@chakra-ui/react"
 import { useEffect, useState } from "react";
 import API from '../util/api';
@@ -46,33 +47,28 @@ const position = [
   
 
 
-const VacancyAdd = () => {
+const VacancyAdd = ({company_id}:{company_id:number}) => {
 
     const [isAdded, setIsAdded] = useState<Boolean>(false);
     // const [companys, setCompanys] = useState<ResponceCompany[]>();
     const [branches, setBranches] = useState<ResponceBranches[]>([{
         id: 0,
         address: "",
-        id_company: 0,
+        id_company: company_id,
         lat: 0,
         lon: 0
     }]);
+
+
     
 
     useEffect(() => {
-        const loadCompanys = async() => {
-            // const {data} = await API.getCompany();
-            // setCompanys(data);
-        }
-
         const loadBranches = async() => {
-            const {data} = await API.getBranches();
+            const {data} = await API.getCompanyBranches(company_id);
             setBranches(data);
         }
-
-        loadCompanys();
         loadBranches();
-
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     const submitForm = async(event:React.FormEvent) => {
@@ -140,6 +136,10 @@ const VacancyAdd = () => {
                             <NumberDecrementStepper />
                         </NumberInputStepper>
                     </NumberInput>
+                </FormControl>
+                <FormControl isRequired mt={5}>
+                    <FormLabel>Оплата </FormLabel>
+                     <Input name="salary"/>
                 </FormControl>
                 <Button mt={5} colorScheme="blue" type="submit">
                     Добавить

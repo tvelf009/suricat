@@ -127,7 +127,7 @@ function App() {
               <Box style={id === 3 ? textStyle4:textStyle5} onClick={() => setId(3)}  p={2}   mt={1} ml={2} >
                 <HStack>
                   <Icon as={FaPuzzlePiece} h={6} w={6} color="blue.800"/>
-                  <Text>  Филиалы</Text>
+                  <Text>  Карта</Text>
                 </HStack>
               </Box>
             </Box>
