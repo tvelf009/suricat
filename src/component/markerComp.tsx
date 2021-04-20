@@ -8,9 +8,8 @@ const MarkerComp = ({coords, logoUrl}:{coords:LatLngExpression, logoUrl:string})
     const iconOptions:IconOptions = {
       iconUrl: logoUrl,
       iconSize: [50, 50],
-      iconAnchor: [25, 25],
-      popupAnchor: [0, 0],
-      className: "markerStyle1",
+      iconAnchor: [25, 50],
+      popupAnchor: [0, -50],
     } 
 
     const ic = new Icon(iconOptions);

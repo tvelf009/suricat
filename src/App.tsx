@@ -6,7 +6,17 @@ import { ChakraProvider,
   SimpleGrid,
   GridItem,
   Text,
-  Center, Grid, HStack } from "@chakra-ui/react"
+  Center, Grid, HStack, Flex, Spacer, Heading, Button,  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  MenuItemOption,
+  MenuGroup,
+  MenuOptionGroup,
+  MenuIcon,
+  MenuCommand,
+  MenuDivider,
+  IconButton } from "@chakra-ui/react"
 import theme from './theme';
 import CSS from 'csstype';
 import { Logo } from './util/icons'
@@ -14,11 +24,12 @@ import Search from './component/search';
 import Company from './component/company';
 import { FaSearchLocation, FaPuzzlePiece } from 'react-icons/fa';
 import { IoIosPeople } from "react-icons/io";
-import { MdWork } from "react-icons/md";
+import { MdWork, MdBuild, MdSearch } from "react-icons/md";
 import { CgOrganisation } from "react-icons/cg";
 import Branches from './component/branches';
 import Vacancy from './component/vacancy';
 import { RiDashboard3Fill  } from "react-icons/ri";
+import { SettingsIcon,  HamburgerIcon } from '@chakra-ui/icons'
 
 const boxStyle1:CSS.Properties = {
   background: "#f7f9fa"
@@ -82,71 +93,44 @@ function App() {
   return (
     
     <ChakraProvider theme={theme}>
-        <Grid h="100vh" templateRows="repeat(24, 1fr)" templateColumns="repeat(12, 1fr)" >
-          <GridItem rowSpan={1} colSpan={12}  bg="white" boxShadow="lg" style={{zIndex:5}}>
-            <SimpleGrid columns={[2, null, 12]}>
-              <GridItem colSpan={1}>
-                <Center height="60px">
-                <Logo/> 
-                <Text style={textStyle2} ml={5}>Giro</Text>
-              </Center>
-              </GridItem>
-            </SimpleGrid>
-          </GridItem>
-          <GridItem rowSpan={23} colSpan={1} style={gridStyle2}>
-            <Box p={8}>
-              <Text style={textStyle3} mt={2}>
-                Инструменты
-              </Text>
-              <Box mt={2} ml={2} p={2} style={id === 1 ? textStyle4:textStyle5} onClick={() => setId(1)}>
-                <HStack>
-                  <Icon as={FaSearchLocation} h={6} w={6} color="blue.800"/>
-                  <Text  > Поиск</Text>
-                </HStack>
-              </Box>
-              
-              <Box mt={2} ml={2} p={2} >
-                <HStack>
-                  <Icon as={IoIosPeople} h={6} w={6} color="blue.800"/>
-                  <Text>  Кандидаты</Text>
-                </HStack>
-              </Box>
-              <Box style={id === 4 ? textStyle4:textStyle5} onClick={() => setId(4)} mt={2} ml={2} p={2} >
-                <HStack>
-                  <Icon as={MdWork} h={6} w={6} color="blue.800" />
-                  <Text>  Вакансии</Text>
-                </HStack>
-              </Box>
-              <Text style={textStyle3} mt={2}>Администрирование</Text>
-              <Box style={id === 2 ? textStyle4:textStyle5} onClick={() => setId(2)} p={2}   mt={1} ml={2} >
-                <HStack>
-                  <Icon as={CgOrganisation} h={6} w={6} color="blue.800"/>
-                  <Text>  Компании</Text>
-                </HStack>
-              </Box>
-              <Box style={id === 3 ? textStyle4:textStyle5} onClick={() => setId(3)}  p={2}   mt={1} ml={2} >
-                <HStack>
-                  <Icon as={FaPuzzlePiece} h={6} w={6} color="blue.800"/>
-                  <Text>  Карта</Text>
-                </HStack>
-              </Box>
-            </Box>
-          </GridItem>
-          <GridItem colSpan={11} >
-            <Box p={5} style={boxStyle1}>
-              <HStack>
-                <Icon as={RiDashboard3Fill} h={8} w={8} color="blue.600" />
-                <Text fontSize="2xl" style={{fontWeight: 600}}>
-                  Dashboard
-                </Text>
-              </HStack>
-
-            </Box>
-            {ChangeMainView()}
-          </GridItem> 
-        </Grid>
-
-      
+      <Flex bg="#fff" boxShadow="base">
+        <Box p="4">
+          <HStack>
+            <Logo/>
+            <Text>Giro </Text>
+          </HStack>
+        </Box>
+        <Spacer />
+        <Box p="4">
+          <Button leftIcon={<MdSearch />} colorScheme="gray" variant="outline" onClick={() => setId(1)} >Поиск</Button>
+          <Menu>
+            <MenuButton
+              as={IconButton}
+              aria-label="Options"
+              icon={<HamburgerIcon />}
+              variant="outline"
+              ml={5}
+            />
+            <MenuList>
+              <MenuItem icon={<IoIosPeople />} command="T">
+                Табель
+              </MenuItem>
+              <MenuItem icon={<MdWork />} command="N" onClick={() => setId(4)}>
+                Вакансии
+              </MenuItem>
+              <MenuItem icon={<CgOrganisation />} command="⌘⇧N" onClick={() => setId(2)}>
+                Компании
+              </MenuItem>
+              <MenuItem icon={<FaPuzzlePiece />} command="⌘O" onClick={() => setId(3)}>
+                Карта
+              </MenuItem>
+            </MenuList>
+          </Menu>
+        </Box>
+      </Flex>
+      <Box>
+        {ChangeMainView()}
+      </Box>
     </ChakraProvider>
   );
 }

@@ -4,7 +4,18 @@ import { Text, Box, Divider, Image, HStack, Center, Stack, Button, useDisclosure
     ModalHeader,
     ModalFooter,
     ModalBody,
-    ModalCloseButton,   } from "@chakra-ui/react"
+    ModalCloseButton,
+    SimpleGrid,
+    GridItem, Menu,
+    MenuButton,
+    MenuList,
+    MenuItem,
+    MenuItemOption,
+    MenuGroup,
+    MenuOptionGroup,
+    MenuIcon,
+    MenuCommand,
+    MenuDivider,  } from "@chakra-ui/react"
 import { Component, ReactElement, useEffect, useState } from "react";
 import API from "../util/api";
 import { ResponceCompany } from '../util/interfaces'
@@ -16,6 +27,10 @@ import { BiNetworkChart, BiMapAlt } from "react-icons/bi";
 import { IoPersonAdd } from "react-icons/io5";
 import BranchesMap from "./branchesMap";
 import VacancyAdd from "./vacancyAdd";
+import { BsPeopleFill } from "react-icons/bs";
+
+
+
 
 type Result = {
     data: ResponceCompany[],
@@ -66,11 +81,12 @@ function ModalWindow({company_id, company_name, type, title}:{company_id:number,
 
     return (
       <>
-        <Button leftIcon={icon} colorScheme="gray" variant="outline" onClick={onOpen}>
+        {/* <Button leftIcon={icon} colorScheme="gray" variant="outline" onClick={onOpen}>
             {title}
-        </Button>
-  
-        <Modal isOpen={isOpen} onClose={onClose} size="6xl" isCentered>
+        </Button> */}
+
+        <MenuItem onClick={onOpen}>{title}</MenuItem>
+        <Modal isOpen={isOpen} onClose={onClose} size="6xl" scrollBehavior={"inside"} isCentered>
           <ModalOverlay />
           <ModalContent>
             <ModalHeader>{headerText}</ModalHeader>
@@ -110,6 +126,8 @@ export class CompanyList extends Component<{}, Result>{
         })
         console.log(this.state.data, status);        
     }
+
+    
     
     render(){
         return (
@@ -117,33 +135,45 @@ export class CompanyList extends Component<{}, Result>{
                 {
                     this.state.status === 200 ? (
                         this.state.data.map((item, index) => (
-                            <Box key={index} >
-                                <HStack  p={5}>
-                                    <Box h="60px" w="200px">
-                                        <Center>
-                                            <Image src={item.company_logo} alt="image" h="80px" />
-                                        </Center>
-                                    </Box>
-                                    <Box h="60px" w="400px">
-                                        <Text style={textStyle1} mt={5} ml={8}> {item.company_name} </Text>
-                                    </Box>
-                                    <Box h="60px" w="750px" pt={3}>
-                                        <Stack direction="row" spacing={4}>
-                                            <ModalWindow company_id={item.id} company_name={item.company_name} type={"addBranches"} title={"Добавить"}/>
-                                            <ModalWindow company_id={item.id} company_name={item.company_name} type={"showOnMap"} title={"Карта"}/>
-                                            <Button leftIcon={<BiNetworkChart />} colorScheme="gray" variant="outline">
-                                                Список филиалов
-                                            </Button>
-                                            <ModalWindow company_id={item.id} company_name={item.company_name} type={"addVacancy"} title={"Добавить вакансию"}/>
+                            <>
+                                <SimpleGrid columns={[2, null, 12]} mt={2} mb={2} key={index}>
+                                    <GridItem colSpan={2}>
+                                        <Image src={item.company_logo} alt="image" h="80px" />
+                                    </GridItem>
+                                    <GridItem colSpan={3}>
+                                        <Text style={textStyle1} mt={3} ml={8}> {item.company_name} </Text>
+                                    </GridItem>
+                                    <GridItem colSpan={7}>
+                                        <Stack direction="row" spacing={4} mt={2}>
+                                            <Menu>
+                                                <MenuButton as={Button} leftIcon={<BiMapAlt />}  variant="outline" >
+                                                    Филиалы
+                                                </MenuButton>
+                                                    <MenuList>
+                                                        <MenuGroup title="Филиалы">
+                                                            <ModalWindow company_id={item.id} company_name={item.company_name} type={"addBranches"} title={"Добавить"}/>
+                                                            <ModalWindow company_id={item.id} company_name={item.company_name} type={"showOnMap"} title={"Карта"}/>
+                                                        </MenuGroup>
+                                                    </MenuList>
+                                            </Menu>
+                                            <Menu>
+                                                <MenuButton as={Button} leftIcon={<BsPeopleFill />}  variant="outline" >
+                                                    Вакансии
+                                                </MenuButton>
+                                                    <MenuList>
+                                                        <MenuGroup title="Филиалы">
+                                                            <ModalWindow company_id={item.id} company_name={item.company_name} type={"addVacancy"} title={"Добавить"}/>
+                                                        </MenuGroup>
+                                                    </MenuList>
+                                            </Menu>
                                             <Button leftIcon={<DeleteIcon />} colorScheme="red" variant="outline">
                                                 удалить
                                             </Button>
                                         </Stack>
-                                    </Box>
-                                </HStack>
+                                    </GridItem>
+                                </SimpleGrid>
                                 <Divider/>
-                            </Box>
-
+                            </>
                         ))
                     ):(
                         <Text>

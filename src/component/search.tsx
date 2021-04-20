@@ -4,7 +4,7 @@ import { Box,
     GridItem,
     Text,
     Input,
-    FormLabel, FormControl, FormHelperText, Select, Button, Center, Divider, HStack, IconButton} from "@chakra-ui/react";
+    FormLabel, FormControl, FormHelperText, Select, Button, Center, Divider, VStack, IconButton} from "@chakra-ui/react";
 import { MapComp } from './mapComp';
 import { Icon, IconOptions, LatLngExpression, LatLngLiteral } from 'leaflet';
 import CSS from 'csstype';
@@ -30,8 +30,13 @@ const gridStyle1:CSS.Properties = {
 
 const textStyle1:CSS.Properties = {
   color: "#000",
-  fontSize: "18px",
+  fontSize: "15px",
   fontWeight: "bolder"
+}
+
+const textStyle2:CSS.Properties = {
+  color: "#525252",
+  fontSize: "14px",
 }
 
 const gridStyle2:CSS.Properties = {
@@ -257,69 +262,46 @@ export const Search = () => {
                           Расчет расстояния от сотрудника до филиалов
                         </Text>
                           <SimpleGrid columns={[2, null, 12]} gap={5} pt={5} pl={5} pr={5}>
-                            <GridItem colSpan={3}>
-                              <Text>
-                                Компания
-                              </Text>
-                            </GridItem>
-                            <GridItem colSpan={2} >
+                            <GridItem colSpan={4}>
                               <Text>
                                 Адрес
                               </Text>
                             </GridItem>
-                            <GridItem colSpan={2} >
+                            <GridItem colSpan={4} >
                               <Text>
-                                Позиция
+                                Позиция / Кол-во
                               </Text>
                             </GridItem>
-                            <GridItem colSpan={2}>
-                              <Text>
-                                Кол-во
-                              </Text>
-                            </GridItem>
-                            <GridItem colSpan={2} >
+                            <GridItem colSpan={4} >
                               <Text>
                                 Расстояние
                               </Text>
                             </GridItem>
-                            <GridItem colSpan={1}>
-
-                            </GridItem>
                           </SimpleGrid>
                           {
                             vacany?.map((item, index) => (
-                              
-                              <SimpleGrid columns={[2, null, 12]} style={gridStyle2} gap={5} key={index}  mt={3} mb={3} p={5} >
-                                <GridItem colSpan={3} mt={1}>
+                              <SimpleGrid columns={[2, null, 12]} style={gridStyle2} gap={5} key={index}  mt={3} mb={3} p={2} >
+                                <GridItem colSpan={4} mt={1}>
                                     <Text style={textStyle1}>
                                       {item.company_name}
                                     </Text>
-                                </GridItem>
-                                <GridItem colSpan={2} mt={1}>
-                                  <Text style={textStyle1}>
+                                    <Text style={textStyle2}>
                                     {item.address}
                                   </Text>
                                 </GridItem>
-                                <GridItem colSpan={2} mt={1}>
+                                <GridItem colSpan={4} mt={1}>
                                   <Text style={textStyle1}>
-                                    {item.position_name}
+                                    {item.position_name} / {item.count}
+                                  </Text>
+                                  <Text style={textStyle2}>
+                                    {item.salary}
                                   </Text>
                                 </GridItem>
-                                <GridItem colSpan={2} mt={1}>
-                                  <Text style={textStyle1}>
-                                    {item.count}
-                                  </Text>
-                                </GridItem>
-                                <GridItem colSpan={2} mt={1} >
-                                  <HStack>
-                                    <Center>
+                                <GridItem colSpan={4} mt={1} >
+                                  <VStack>
                                   <Text style={textStyle1}>
                                     {distanceInKmBetweenEarthCoordinates(coordinates.lat, coordinates.lng, item.lat, item.lon).toFixed(2)} км
                                   </Text>
-                                  </Center>
-                                  </HStack>
-                                </GridItem>
-                                <GridItem colSpan={1}>
                                   <IconButton
                                       colorScheme="blue"
                                       aria-label="Search database"
@@ -327,6 +309,7 @@ export const Search = () => {
                                       onClick={() => MarkerSet(coordinates.lat, coordinates.lng, item.lat, item.lon, item.company_logo)}
                                       variant="outline"
                                     />
+                                  </VStack>
                                 </GridItem>
                             </SimpleGrid>
                             ))
