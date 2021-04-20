@@ -2,6 +2,12 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Docker
+
+`docker build -t suricat .  `
+
+`docker run -it -d --rm -p 3000:3000 suricat`
+
 ## Available Scripts
 
 In the project directory, you can run:
