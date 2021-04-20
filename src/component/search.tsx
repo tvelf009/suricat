@@ -261,23 +261,6 @@ export const Search = () => {
                         <Text fontSize="xl">
                           Расчет расстояния от сотрудника до филиалов
                         </Text>
-                          <SimpleGrid columns={[2, null, 12]} gap={5} pt={5} pl={5} pr={5}>
-                            <GridItem colSpan={4}>
-                              <Text>
-                                Адрес
-                              </Text>
-                            </GridItem>
-                            <GridItem colSpan={4} >
-                              <Text>
-                                Позиция / Кол-во
-                              </Text>
-                            </GridItem>
-                            <GridItem colSpan={4} >
-                              <Text>
-                                Расстояние
-                              </Text>
-                            </GridItem>
-                          </SimpleGrid>
                           {
                             vacany?.map((item, index) => (
                               <SimpleGrid columns={[2, null, 12]} style={gridStyle2} gap={5} key={index}  mt={3} mb={3} p={2} >
